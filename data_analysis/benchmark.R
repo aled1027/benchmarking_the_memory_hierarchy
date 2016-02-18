@@ -1,96 +1,34 @@
 library(ggplot2)
 library(dplyr)
 
-# Read python data from file `python-data.csv`
-py.bm <- read.csv('./data.csv') %>%
-    mutate(lang = "python") %>%
-    mutate(i = 1:nrow(py.bm))
+for (i in 10:24) {
+  arr_size <- 2 ** i
+  iters <- 1000
+  setwd("../data/.")
+  fn <- paste(arr_size, "-", iters, ".csv", sep="")
+  dat.0 <- read.csv(fn)
+  dat.0 <- mutate(dat.0, i = 1:nrow(dat.0))
+  qplot(i, time, data = dat.0,
+        xlab = "iteration number", ylab = "time to retrieve a random element",
+        main = paste("Retrieveing a random element: arr_size = 2^", i, "and iters = ", iters, sep=''))
+  png_fn = paste(arr_size, "-", iters, ".png", sep="")
+  ggsave(filename=png_fn)
+}
 
-# Read c data from files `c-o0.csv`, `c-o1.csv`, `c-o2.csv`, `c-o3.csv`
-# Each file should correspond to optimization level
-c.0 <- read.csv('./c-o0.csv') %>%
-    mutate(optim.level = "0")
-c.1 <- read.csv('./c-o1.csv') %>%
-    mutate(optim.level = "1")
-c.2 <- read.csv('./c-o2.csv') %>%
-    mutate(optim.level = "2")
-c.3 <- read.csv('./c-o3.csv') %>%
-    mutate(optim.level = "3")
-c.fast <- read.csv('./c-ofast.csv') %>%
-  mutate(optim.level = "fast")
-c.bm <- rbind(c.0, c.1, c.2, c.3, c.fast) %>%
-    mutate(lang = "c",
-           optim.level = as.factor(optim.level)) %>%
-  filter(iter == 5000)
+df <- data.frame()
+for (i in 10:24) {
+  arr_size <- 2 ** i
+  iters <- 1000
+  setwd("../data/.")
+  fn <- paste(arr_size, "-", iters, ".csv", sep="")
+  dat.0 <- read.csv(fn)
+  dat.0 <- mutate(dat.0, i = 1:nrow(dat.0))
+  df <- rbind(df, dat.0)
+  qplot(i, time, data = dat.0,
+        xlab = "Time to retrieve a random element", ylab = "iteration number",
+        main = paste("Retrieveing a random element: arr_size = 2^", i, "and iters = ", iters, sep=''))
+  png_fn = paste(arr_size, "-", iters, ".png", sep="")
+  ggsave(filename=png_fn)
+}
 
-# Also load c code with double
-c.dbl <- read.csv('./double.csv') %>%
-  mutate(optim.level="fast",
-         type="double")
-c.type <- c.fast %>%
-  mutate(type="float") %>%
-  rbind(c.dbl) %>%
-  mutate(type=as.factor(type)) %>%
-  filter(iter == 5000)
-
-# Read asm data
-py.main.bm <- read.csv('./py_test.csv') %>%
-  mutate(lang="Python")
-c.main.bm <- read.csv('./c_test.csv') %>%
-  mutate(lang="C")
-asm.bm <- read.csv('./asm_test.csv') %>%
-    mutate(lang = "x86 Assembly")
-
-# Combine datasets
-all.bm <- py.main.bm %>% rename(iter = iters) %>%
-  mutate(chksum = as.numeric(NA),
-         time = time* 10^9) %>%
-  select(size, iter, time, chksum, lang) %>%
-  rbind(asm.bm, c.main.bm)
-
-
-# Plot for just python
-py.bm.plot <- ggplot(py.bm, aes(x = size, y = time, color = i)) +
-  geom_point() +
-  labs(title = "Comparing Benchmarks",
-       x = "# of objects",
-       y = "time to execute 1000 iterations (microseconds)") + 
-  geom_smooth() + 
-  scale_x_log10()
-
-py.bm.plot
-ggsave(filename="python.png")
-
-# Plot for different C optimizations
-c.optim.plot <- ggplot(c.bm, aes(x = jitter(size), y = time, color = optim.level)) +
-    labs(title="Runtimes for Different C Optimization Levels",
-         x = "# of objects",
-         y = "time to execute 1000 iterations (microseconds)") +
-    geom_smooth(alpha = 0.2) +
-    geom_point() +
-    scale_x_log10()
-
-c.optim.plot
-ggsave(filename="c_optimizations.png")
-
-# Plot for float and double
-ggplot(c.type, aes(x = jitter(size), y = time, color = type)) +
-  geom_point() +
-  labs(title="Runtimes for Float and Double Implementation",
-       x = "# of objects",
-       y = "time to execute 1000 iterations (microseconds)") +
-  geom_smooth(alpha = 0.2) +
-  scale_x_log10()
-ggsave(filename="c_type.png")
-
-# Plot with pyhton, C, and asm
-lang.plot <- ggplot(all.bm, aes(x = size, y = time, color = lang)) +
-    geom_point() +
-    labs(title = "Runtimes for different Languages",
-         x = "# of objects",
-         y = "time to execute 60 iterations (nanoseconds)") +
-    geom_smooth() +
-    scale_x_log10()
-
-lang.plot
-ggsave(filename="lang_comparison.png")
+ggplot(data=df, aes(x = i, y= time, col = as.factor(arr_size))) + geom_point() + ylim(0, 900)
