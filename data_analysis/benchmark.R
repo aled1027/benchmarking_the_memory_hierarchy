@@ -20,9 +20,6 @@ for (i in seq(10,24,move_by)) {
     ylab("time to retrieve a random element (nanoseconds)") + 
     xlab("iteration") +
     ggtitle("Retrieving a random element from arrays of various size")
-#   qplot(i, time, data = dat.0,
-#         xlab = "time to retrieve a random element (nanoseconds)", ylab = "iteration number",
-#         main = paste("Retrieveing a random element: arr_size = 2^", i, "and iters = ", iters, sep=''), col = as.factor(arr_size))
   png_fn = paste(arr_size, "-", iters, ".png", sep="")
   #ggsave(filename=png_fn)
   
@@ -45,8 +42,10 @@ ggsave(filename="aggregate_graph.png")
 eitan_df <- data.frame(
   arr_size = c(10:24),
   medians = medians)
-ggplot(data=eitan_df, aes(x = arr_size, y= medians, col = as.factor(arr_size))) + geom_point() +
-   ylab("time (nanoseconds)") + 
-   xlab("Size of array (log_2 scale)") +
-   ggtitle("Median time to retrieve a random element from arrays of various size")
+ggplot(data=eitan_df, aes(x = arr_size, y= medians, col = as.factor(arr_size))) + 
+  geom_bar(stat="identity", aes(fill=as.factor(arr_size))) +
+  ylab("time (nanoseconds)") + 
+  xlab("Size of array (log_2 scale)") +
+  ggtitle("Median time to retrieve a random element from arrays of various size")
+ggsave(filename="medians_bargraph.png")
 
