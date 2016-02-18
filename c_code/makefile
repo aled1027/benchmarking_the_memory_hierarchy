@@ -1,14 +1,19 @@
 
-CFLAGS = -Wall -Wextra -pedantic -Werror -std=gnu11
+CFLAGS = -O3 -Wall -Wextra -pedantic -Werror -std=gnu11
+#CFLAGS = -std=gnu11
+LIBS = -lm -lrt
 
 default:
-	gcc $(CFLAGS) main.c 
+	gcc $(CFLAGS) utils.c main.c  $(LIBS)
 
 run:
-	./a.out
+	./a.out 32768 10000
 
 gdb:
 	gdb --args ./a.out
 
 valg:
 	valgrind ./a.out
+
+rs:
+	./run.sh
