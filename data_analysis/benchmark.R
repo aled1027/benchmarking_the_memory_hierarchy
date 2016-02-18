@@ -1,22 +1,12 @@
 library(ggplot2)
 library(dplyr)
 
-for (i in 10:24) {
-  arr_size <- 2 ** i
-  iters <- 1000
-  setwd("../data/.")
-  fn <- paste(arr_size, "-", iters, ".csv", sep="")
-  dat.0 <- read.csv(fn)
-  dat.0 <- mutate(dat.0, i = 1:nrow(dat.0))
-  qplot(i, time, data = dat.0,
-        xlab = "iteration number", ylab = "time to retrieve a random element",
-        main = paste("Retrieveing a random element: arr_size = 2^", i, "and iters = ", iters, sep=''))
-  png_fn = paste(arr_size, "-", iters, ".png", sep="")
-  ggsave(filename=png_fn)
-}
-
+# What I think is a useful graph:
+move_by <- 1
 df <- data.frame()
-for (i in 10:24) {
+medians <- c(1:14)
+for (i in seq(10,24,move_by)) {
+  #print(i)
   arr_size <- 2 ** i
   iters <- 1000
   setwd("../data/.")
@@ -24,11 +14,39 @@ for (i in 10:24) {
   dat.0 <- read.csv(fn)
   dat.0 <- mutate(dat.0, i = 1:nrow(dat.0))
   df <- rbind(df, dat.0)
-  qplot(i, time, data = dat.0,
-        xlab = "Time to retrieve a random element", ylab = "iteration number",
-        main = paste("Retrieveing a random element: arr_size = 2^", i, "and iters = ", iters, sep=''))
+  
+  ggplot(data=dat.0, aes(x = i, y= time, col = as.factor(arr_size))) +
+    geom_path() + ylim(0, 900) +
+    ylab("time to retrieve a random element (nanoseconds)") + 
+    xlab("iteration") +
+    ggtitle("Retrieving a random element from arrays of various size")
+#   qplot(i, time, data = dat.0,
+#         xlab = "time to retrieve a random element (nanoseconds)", ylab = "iteration number",
+#         main = paste("Retrieveing a random element: arr_size = 2^", i, "and iters = ", iters, sep=''), col = as.factor(arr_size))
   png_fn = paste(arr_size, "-", iters, ".png", sep="")
-  ggsave(filename=png_fn)
+  #ggsave(filename=png_fn)
+  
+  # for Eitan graph:
+  medians[i-9] <- median(dat.0$time)
+  print(median(dat.0$time))
 }
 
-ggplot(data=df, aes(x = i, y= time, col = as.factor(arr_size))) + geom_point() + ylim(0, 900)
+# geom_point and geom_smooth were also useful plots
+ggplot(data=df, aes(x = i, y= time, col = as.factor(arr_size))) +
+  geom_path() + ylim(0, 900) +
+  ylab("time to retrieve a random element (nanoseconds)") + 
+  xlab("iteration") +
+  ggtitle("Retrieving a random element from arrays of various size")
+
+ggsave(filename="aggregate_graph.png")
+
+# What Eitan wants:
+# assume df is filled
+eitan_df <- data.frame(
+  arr_size = c(10:24),
+  medians = medians)
+ggplot(data=eitan_df, aes(x = arr_size, y= medians, col = as.factor(arr_size))) + geom_point() +
+   ylab("time (nanoseconds)") + 
+   xlab("Size of array (log_2 scale)") +
+   ggtitle("Median time to retrieve a random element from arrays of various size")
+
