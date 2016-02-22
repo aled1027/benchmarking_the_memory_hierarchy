@@ -18,7 +18,7 @@ for (j in seq(10,24,1)) {
   
   ggplot(data=dat.0, aes(x = i, y= time)) +
     geom_point() + 
-    coord_cartesian(ylim=c(0,900)) +
+    coord_cartesian(ylim=c(180,300)) +
     ylab("time to retrieve a random element (nanoseconds)") + 
     xlab("iteration") +
     ggtitle("Retrieving a random element")
@@ -26,20 +26,20 @@ for (j in seq(10,24,1)) {
   ggsave(filename=fn)
 }
 
-# # geom_point and geom_smooth were also useful plots
-# ggplot(data=df, aes(x = i, y= time, col = as.factor(arr_size))) +
-#   geom_point() + 
-#   coord_cartesian(ylim=c(0,900)) +
-#   #ylim(0, 900) + #ignores elements outside of range
-#   ylab("time to retrieve a random element (nanoseconds)") + 
-#   xlab("iteration") +
-#   ggtitle("Retrieving a random element from arrays of various size")
-# ggsave(filename="aggregate_graph.pdf")
-
 ggplot(data=df, aes(x = arr_size_lg2, y= time, col = as.factor(arr_size_lg2))) +
   geom_boxplot() + 
-  coord_cartesian(ylim=c(200,300)) + 
+  coord_cartesian(ylim=c(180,300)) + 
   ylab("time (nanoseconds") +
   xlab("array size") +
   ggtitle("Time to retrieve random element")
 ggsave(filename="boxplot.png")
+
+
+# Aggregate scatter plot
+ggplot(data=df, aes(x = i, y= time, col = as.factor(arr_size_lg2))) +
+  geom_point() + 
+  coord_cartesian(ylim=c(180,300)) +
+  ylab("time to retrieve a random element (nanoseconds)") + 
+  xlab("iteration") +
+  ggtitle("Retrieving a random element from arrays of various size")
+ggsave(filename="aggregate_scatter_plot.png")
