@@ -21,7 +21,7 @@ for (i in seq(10,24,move_by)) {
     xlab("iteration") +
     ggtitle("Retrieving a random element from arrays of various size")
   png_fn = paste(arr_size, "-", iters, ".png", sep="")
-  #ggsave(filename=png_fn)
+  ggsave(filename=png_fn)
   
   # for Eitan graph:
   medians[i-9] <- median(dat.0$time)

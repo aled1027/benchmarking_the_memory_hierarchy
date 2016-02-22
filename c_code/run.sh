@@ -1,7 +1,7 @@
 #!/bin/bash
 
 mkdir -p ../data
-ITERS=1000
+ITERS=10000
 for (( ARR_SIZE = 2**10; ARR_SIZE <= 2**24; ARR_SIZE *= 2))
 do
     echo "arr_size, iters, time" > ../data/$ARR_SIZE-$ITERS.csv
