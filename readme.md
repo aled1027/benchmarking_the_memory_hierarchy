@@ -1,3 +1,6 @@
+# TODO
+- fix x axis on these things. 
+- probably easiest to add a new column or row or something with c(8,24)
 
 # Benchmarking the memory hierarchy
 
