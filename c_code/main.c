@@ -6,7 +6,9 @@
 
 #include "utils.h"
 
-uint64_t time_read_random_element(uint8_t *arr, size_t n) 
+#define DATA_TYPE uint64_t
+
+uint64_t time_read_random_element(DATA_TYPE *arr, size_t n) 
 {
     uint32_t idx = random_uint32_t(0, n);
 
@@ -20,7 +22,7 @@ uint64_t time_read_random_element(uint8_t *arr, size_t n)
 
 void go(uint32_t iters, uint64_t N) 
 {
-    uint8_t *arr = malloc(N * sizeof(uint8_t));
+    DATA_TYPE *arr = malloc(N * sizeof(DATA_TYPE));
     assert(arr && "memory allocated?");
     for (uint32_t j = 0; j < iters; ++j) {
         uint64_t t = time_read_random_element(arr, N);
