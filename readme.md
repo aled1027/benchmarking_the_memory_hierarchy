@@ -10,7 +10,7 @@
 For my experiment, I did the following:
 
 1. Take as input `num_objects` and `iters`
-2. Initialize an `uint8_t` array with `num_objects` elements
+2. Initialize an `uint64_t` array with `num_objects` elements
 3. Query a random value `r` that is between `0` and `num_objects - 1`
 4. Time how long it takes to fetch the rth value of the array
 5. Repeat steps 4 and 5 `iters` times. 
@@ -34,7 +34,8 @@ The probability that the element is randomly fetched again is
 (acquired from geometric distribution), representing the probability of a temporal cache hit, assuming the value is not kept in the cache because it's part of the cache block of a different fetched value. 
 
 ## Graphs
-(insert boxplot graph)
+![Boxplot zoomed in](https://raw.githubusercontent.com/aled1027/benchmarking_the_memory_heirarchy/master/images/boxplot.png)
+
 In this plot I show the boxplot for each `num_objects` where y-axis the amount of time required to fetch a single random element. 
 You'll notice that `num_objects = 10` has a smaller interquartile region and a lower median. 
 The interquartile regions of the other plots appear basically the same in terms of position and height.
