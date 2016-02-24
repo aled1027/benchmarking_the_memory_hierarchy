@@ -5,6 +5,8 @@ setwd("../data/.")
 image_prefix <- "../images/"
 
 
+
+
 # load data, make individual graphs
 df <- data.frame()
 for (j in seq(10,24,1)) {
@@ -52,3 +54,23 @@ ggplot(data=df, aes(x = i, y= time, col = as.factor(arr_size_lg2))) +
   xlab("iteration") +
   ggtitle("Retrieving a random element from arrays of various size")
 ggsave(filename="../images/aggregate_scatter_plot.png")
+
+# Plot for current_time_ns
+cur_time_dat <- read.csv("time_current_time.csv")
+ggplot(data=cur_time_dat, aes(x = i, y = time)) +
+  geom_boxplot() + 
+  ylab("time (nanoseconds)") + 
+  xlab("") +
+  ggtitle("Boxplot of the amount of time it takes to \"time\"")
+ggsave(filename="../images/current_time_boxplot.png")
+
+# Plot for generate random element
+rand_ele_dat <- read.csv("gen_random_element.csv")
+ggplot(data=rand_ele_dat, aes(x = i, y = time)) +
+  geom_boxplot() + 
+  coord_cartesian(ylim=c(0,25)) +
+  ylab("time (nanoseconds)") + 
+  xlab("") +
+  ggtitle("Boxplot of time to generate a rand uint32_t (zoomed in)")
+ggsave(filename="../images/random_element_boxplot.png")
+
