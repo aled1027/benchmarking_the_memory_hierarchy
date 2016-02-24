@@ -8,12 +8,13 @@
 
 ### My experiment. 
 For my experiment, I did the following:
+
 1. Take as input `num_objects` and `iters`
 2. Initialize an `uint8_t` array with `num_objects` elements
 3. Query a random value `r` that is between `0` and `num_objects - 1`
 4. Time how long it takes to fetch the rth value of the array
 5. Repeat steps 4 and 5 `iters` times. 
-6. 
+
 I ran all of my experiments with `iters = 10,000`. 
 10,000 is large enough that initializing code can take effect, and if possible, values of the array are cached. 
 10,000 was small enough that I could run all of the experiments in less than a minute. 
