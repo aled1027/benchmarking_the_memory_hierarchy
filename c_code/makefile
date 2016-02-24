@@ -1,5 +1,6 @@
 
 #CFLAGS = -O3 -Wall -Wextra -pedantic -Werror -std=gnu11
+
 CFLAGS = -O3 -std=gnu11
 LIBS = -lm -lrt
 
@@ -7,7 +8,7 @@ default:
 	gcc $(CFLAGS) utils.c main.c  $(LIBS)
 
 run:
-	./a.out 20148 1000000
+	./a.out 2048 1000000
 
 gdb:
 	gdb --args ./a.out

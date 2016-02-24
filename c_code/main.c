@@ -13,13 +13,6 @@
 uint64_t const time_to_get_current_time_ns = 126;
 uint64_t const time_to_gen_random_element = 12;
 
-void read_random_element(DATA_TYPE *arr, size_t n) 
-{
-    uint32_t idx = random_uint32_t(0, n);
-    uint64_t element = arr[idx];
-    assert(element + 1); // so that element is "used"
-} 
-
 void go(uint64_t iters, uint64_t N) 
 {
     DATA_TYPE *arr = malloc(N * sizeof(DATA_TYPE));
@@ -27,12 +20,15 @@ void go(uint64_t iters, uint64_t N)
 
     uint64_t start = current_time_ns();
     for (uint32_t j = 0; j < iters; ++j) {
-        read_random_element(arr, N);
-    }
-    uint64_t end = current_time_ns();
+        uint32_t idx = random_uint32_t(0, N);
 
+        uint64_t element = arr[idx];
+        //uint64_t element = arr[0];
+    }
+
+    uint64_t end = current_time_ns();
     uint64_t actual_time = end - start - time_to_get_current_time_ns - (iters * time_to_gen_random_element);
-    // now remove the average amount of time to read
+
     printf("%lu, %lu, %lf\n", N, iters, (double) actual_time / (double) iters);
     free(arr);
 }
