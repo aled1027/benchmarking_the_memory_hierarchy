@@ -43,11 +43,11 @@ The median random-fetch-time is the same, with three exceptions: i = 10, 17 and 
 I'm not sure why 17 and 23 have a lower median than the other plots.
 My hypthesis is that some caching feature is available at those array sizes, but at others, but I have no specific ideas. 
 
-(insert full bloxplot)
+![Full boxplot](https://raw.githubusercontent.com/aled1027/benchmarking_the_memory_hierarchy/master/images/boxplot_full.png)
 This is the same graph as above with y-axis longer to show more of the outliers.
 You can see that there are quite a few outliers, and notice that at this scale, the different object sizes (except i = 10) have similar random-fetch-times. 
 
-(insert aggregate scatter plot)
+![Aggregate scatter plot](https://raw.githubusercontent.com/aled1027/benchmarking_the_memory_hierarchy/master/images/aggregate_scatter_plot.png)
 This graph is a monstrosity. 
 It is a scatter plot of all of the data I collected. 
 Each point represents (iteration number, time to fetch random element), and the color of the point corresponds to array size (see legend).
