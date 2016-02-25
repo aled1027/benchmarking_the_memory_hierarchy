@@ -6,10 +6,10 @@ image_prefix <- "../images/"
 
 # load data, make individual graphs
 df <- data.frame()
-for (j in seq(3,24,1)) {
+for (j in seq(3,22,1)) {
   #print(i)
   arr_size <- 2 ** j
-  fn <- paste(arr_size, "-1000", ".csv", sep="")
+  fn <- paste(arr_size, "-10000", ".csv", sep="")
   dat.0 <- read.csv(fn)
   dat.0 <- mutate(dat.0, i = 1:nrow(dat.0))
   dat.0$arr_size_lg2 <- rep(j, nrow(dat.0))

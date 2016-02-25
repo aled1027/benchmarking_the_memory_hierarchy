@@ -9,9 +9,10 @@
 
 #define BILLION  1E9
 #define DATA_TYPE uint64_t
+//#define ACCESS_0
 
 uint64_t const time_to_get_current_time_ns = 126;
-uint64_t const time_to_gen_random_element = 12;
+uint64_t const time_to_gen_random_element = 13;
 
 void go(uint64_t iters, uint64_t N) 
 {
@@ -26,8 +27,13 @@ void go(uint64_t iters, uint64_t N)
     /* Do the experiment */
     uint64_t start = current_time_ns();
     for (uint32_t i = 0; i < iters; ++i) {
+#ifdef ACCESS_0
+        uint32_t idx = random_uint32_t(0, N);
+        uint64_t element = arr[0];
+#else
         uint32_t idx = random_uint32_t(0, N);
         uint64_t element = arr[idx];
+#endif
     }
     uint64_t end = current_time_ns();
     uint64_t actual_time = end - start - time_to_get_current_time_ns - (iters * time_to_gen_random_element);
