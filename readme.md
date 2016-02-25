@@ -1,8 +1,4 @@
 # TODO
-- these numbers are confusing me. 
-- I made a simple timing test, where the current time is taken sequentially.
-- The difference between those times is about 160-200 ns. 
-- maybe I should normalize by that time?
 - generate random element: 12
 - time current time quantiles: 127 127 129 for 25%, 50%, 75% respectively
 - http://stackoverflow.com/questions/21369381/measuring-cache-latencies
@@ -10,56 +6,57 @@
 
 # Benchmarking the Memory Heirarchy
 
-### My experiment. 
-For my experiment, I did the following:
+## My experiment. 
+My experiment had the following steps:
 
-TODO fix these steps:
+1. Take as input `num_objects` and `iters`.
+2. Initialize a `uint64_t` array with `num_objects` elements.
+3. Time how long the following loop takes. Call the time `t`.
+```
+for i = 0 to iters:
+    r = rand(0, num_objects - 1)
+    fetch arr[r]
+```
+4. Normalize `t`. (See below for discussions of the constants)
+```
+t = t - time_to_get_current_time_ns - (iters * time_to_gen_random_element)
+```
+5. Report `t`
+6. Repeat steps 1 through 5 `num_trials` times. 
 
-1. Take as input `num_objects` and `iters`
-2. Initialize an `uint64_t` array with `num_objects` elements
-3. Query a random value `r` that is between `0` and `num_objects - 1`
-4. Time how long it takes to fetch the rth value of the array
-5. Repeat steps 4 and 5 `iters` times. 
+## Justification of decisions
+### Iters
+I ran all of my experiments with `iters = 1,000,000`. 
+1,000,000 is large enough that initializing code can take effect, and if possible, values of the array are cached. 
+1,000,000 was small enough that I could run all of the experiments in less than a minute. 
 
-I ran all of my experiments with `iters = 10,000`. 
-10,000 is large enough that initializing code can take effect, and if possible, values of the array are cached. 
-10,000 was small enough that I could run all of the experiments in less than a minute. 
-
+### Number of Objects
 I ran experiments with `num_objects = 2**i` where `i = 10, 11, ..., 24`.
 Having `i` in this range ensured that array was sufficiently large, and the range from `2**10` to `2**24` ensured that I was testing a very different sized arrays. 
 
-![Full boxplot](https://raw.githubusercontent.com/aled1027/benchmarking_the_memory_hierarchy/master/images/generate_random_boxplot.png)
+### Timing Constants 
+In order to find the amount of time it takes to access the cache, I wanted to remove the amount of time it takes to perform extraneous steps. 
+In my experiment these steps were generating a random value, and finding the current time. 
+I setup two experiments to determine these values. 
+The generate-random experiment found the average amount of time to generate a random value. 
+The current-time experiment found the average amount of time to do the following: 
+```
+uint64_t start = current_time_ns();
+uint64_t end = current_time_ns();
+```
 
+The output of these experiments is plotted below. 
+I ran each experiment 10,000 times, so the boxplots you are looking have 10,000 data points, where each point is the average of 100,000 operations. 
+As you can see, the interquartile ranges are quite small, so we there is little variance in the performance of these operations (althought there are some outliers). 
+I elected to use 12ns as the time to generate a random value and to use 126ns as the time to time something. 
+![Full boxplot](https://raw.githubusercontent.com/aled1027/benchmarking_the_memory_hierarchy/master/images/generate_random_boxplot.png)
 ![Full boxplot](https://raw.githubusercontent.com/aled1027/benchmarking_the_memory_hierarchy/master/images/current_time_boxplot.png)
+(p.s. do you know how to make these images smaller on github?)
 
 ## Graphs
+First, let's look at the overall results. 
+In the plot below I show the boxplot for each `num_objects` where y-axis the amount of time in nanoseconds required to fetch a single random element. 
+Most of the medians are approximately 1.75ns, with `22` and `24` a little higher. 
+From this, I hypothesisze that it takes about 1.75ns to access the L1 cache.
+
 ![Boxplot zoomed in](https://raw.githubusercontent.com/aled1027/benchmarking_the_memory_hierarchy/master/images/boxplot.png)
-
-In this plot I show the boxplot for each `num_objects` where y-axis the amount of time required to fetch a single random element. 
-You'll notice that `num_objects = 10` has a smaller interquartile region and a lower median. 
-The interquartile regions of the other plots appear basically the same in terms of position and height.
-The median random-fetch-time is the same, with three exceptions: i = 10, 17 and 23. 
-I'm not sure why 17 and 23 have a lower median than the other plots.
-My hypthesis is that some caching feature is available at those array sizes, but at others, but I have no specific ideas. 
-
-![Full boxplot](https://raw.githubusercontent.com/aled1027/benchmarking_the_memory_hierarchy/master/images/boxplot_full.png)
-This is the same graph as above with y-axis longer to show more of the outliers.
-You can see that there are quite a few outliers, and notice that at this scale, the different object sizes (except i = 10) have similar random-fetch-times. 
-
-![Aggregate scatter plot](https://raw.githubusercontent.com/aled1027/benchmarking_the_memory_hierarchy/master/images/aggregate_scatter_plot.png)
-This graph is a monstrosity. 
-It is a scatter plot of all of the data I collected. 
-Each point represents (iteration number, time to fetch random element), and the color of the point corresponds to array size (see legend).
-I show this plot because of the strange rectangular structures.
-
-First, there is the light blue rectangle sitting at (0,230) to (1500,238). 
-This rectangle corresponds to an object size of 17, and may explain why 17 has a lower median than the other values. 
-But, I do not know how to explain the behavior - yet.
-
-Second, there are two big pink-purple rectangles that are offset.
-After about 5000 iterations, a number of object sizes suddently drop and take less time. 
-I don't know how to explain this.
-
-Third, The orange points, correspond to an object size of 10, is very consistent at the bottom. 
-The rectangles do not shift around like any of the other object sizes. 
-This suggests, to me, that the size of some cache is between `2**10 and 2**11`, such that the entire 10 array could fit in the same cache (say the L1 cache), and could be accessed efficiently and consistently after compulsory cache misses. 
