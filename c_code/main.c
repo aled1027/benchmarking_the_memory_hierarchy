@@ -46,7 +46,7 @@ int32_t cache_type = eax & 0x1F;
     }
 }
 
-uint64_t time_read_random_element(uint64_t iters, uint32_t mod)
+uint64_t time_gen_random_element(uint64_t iters, uint32_t mod)
 {
     uint64_t start = current_time_ns();
     for (uint32_t i = 0; i < iters; i++) {
@@ -68,7 +68,7 @@ void go(uint64_t iters, uint64_t N)
     }
     uint64_t end = current_time_ns();
     uint64_t elapsed_time = end - start;
-    elapsed_time -= (iters * time_read_random_element(iters, N));
+    elapsed_time -= (iters * time_gen_random_element(iters, N));
 
     printf("%" PRIu64 ", %" PRIu64 ", %lf\n",
             N, iters, (double) elapsed_time / (double) iters);
@@ -84,11 +84,11 @@ int main(int argc, char *argv[])
     uint64_t iters = 10000000;
 
     srand(0);
-    go(iters, arr_size);
+    //go(iters, arr_size);
 
     //time_current_time_ns();
     //time_read_random_element(iters, pow(2,22));
-    //go_cpuid();
+    measure_cache();
 
     return 0;
 }
