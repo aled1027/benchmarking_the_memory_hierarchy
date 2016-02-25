@@ -18,14 +18,17 @@ void go(uint64_t iters, uint64_t N)
     DATA_TYPE *arr = malloc(N * sizeof(DATA_TYPE));
     assert(arr && "memory allocated?");
 
-    uint64_t start = current_time_ns();
-    for (uint32_t j = 0; j < iters; ++j) {
-        uint32_t idx = random_uint32_t(0, N);
-
-        uint64_t element = arr[idx];
-        //uint64_t element = arr[0];
+    /* Fill the array with random values */
+    for (uint64_t i = 0; i < N; ++i) {
+        arr[i] = (uint64_t) random_uint32_t(0, 10000);
     }
 
+    /* Do the experiment */
+    uint64_t start = current_time_ns();
+    for (uint32_t i = 0; i < iters; ++i) {
+        uint32_t idx = random_uint32_t(0, N);
+        uint64_t element = arr[idx];
+    }
     uint64_t end = current_time_ns();
     uint64_t actual_time = end - start - time_to_get_current_time_ns - (iters * time_to_gen_random_element);
 
