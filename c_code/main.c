@@ -35,7 +35,6 @@ void go(uint64_t iters, uint64_t N)
 
 void time_current_time_ns() 
 {
-    uint64_t tot = 0;
     uint64_t len = 1000000;
     uint64_t start = current_time_ns();
     for (uint32_t i = 0; i < len; i++) {

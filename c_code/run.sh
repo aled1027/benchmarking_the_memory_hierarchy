@@ -11,7 +11,7 @@
 #    done
 #done
 
-ARR_SIZE=4096
+ARR_SIZE=512
 ITERS=1000000
 
 echo "arr_size, iters, time" > ../new_data/$ARR_SIZE-$ITERS.csv
