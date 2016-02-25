@@ -6,77 +6,89 @@
 #include <time.h>
 #include <inttypes.h>
 #include "utils.h"
-
-#define BILLION  1E9
-#define DATA_TYPE uint64_t
-//#define ACCESS_0
-
+#define BILLION  1E9 
 uint64_t const time_to_get_current_time_ns = 126;
-uint64_t const time_to_gen_random_element = 13;
+
+void measure_cache()
+{
+    // modified from http://stackoverflow.com/questions/21369381/measuring-cache-latencies
+    for (uint32_t i = 0; i < 4; i++) {
+
+        uint32_t eax, ebx, ecx, edx; 
+        eax = 4; // get cache info
+        ecx = i; // cache id
+
+        asm (
+            "cpuid" // call i386 cpuid instruction
+            : "+a" (eax) // contains the cpuid command code, 4 for cache query
+            , "=b" (ebx)
+            , "+c" (ecx) // contains the cache id
+            , "=d" (edx)
+        );
+int32_t cache_type = eax & 0x1F; 
+        int32_t cache_level = (eax >>= 5) & 0x7;
+        uint32_t cache_sets = ecx + 1;
+        uint32_t cache_coherency_line_size = (ebx & 0xFFF) + 1;
+        uint32_t cache_physical_line_partitions = ((ebx >>= 12) & 0x3FF) + 1;
+        uint32_t cache_ways_of_associativity = ((ebx >>= 10) & 0x3FF) + 1;
+
+        size_t cache_total_size = cache_ways_of_associativity * cache_physical_line_partitions * 
+            cache_coherency_line_size * cache_sets;
+
+        printf("Cache ID: %u\n", i);
+        printf("Level: %d\n", cache_level);
+        printf("Sets: %d\n", cache_sets);
+        printf("System Coherency Line Size: %u bytes\n", cache_coherency_line_size);
+        printf("Physical Line partitions: %u\n", cache_physical_line_partitions);
+        printf("Ways of associativity: %u\n", cache_ways_of_associativity);
+        printf("Total Size: %zu bytes (%zu kb)\n", cache_total_size, cache_total_size >> 10);
+        printf("\n");
+    }
+}
+
+uint64_t time_read_random_element(uint64_t iters, uint32_t mod)
+{
+    uint64_t start = current_time_ns();
+    for (uint32_t i = 0; i < iters; i++) {
+        uint32_t a = rand() % mod;
+    }
+    uint64_t end = current_time_ns();
+    return (end - start) / iters;
+}
 
 void go(uint64_t iters, uint64_t N) 
 {
-    DATA_TYPE *arr = malloc(N * sizeof(DATA_TYPE));
-    assert(arr && "memory allocated?");
+    uint64_t *arr = generate_random_array(N);
 
-    /* Fill the array with random values */
-    for (uint64_t i = 0; i < N; ++i) {
-        arr[i] = (uint64_t) random_uint32_t(0, 10000);
-    }
-
-    /* Do the experiment */
+    uint32_t i = 0;
     uint64_t start = current_time_ns();
-    for (uint32_t i = 0; i < iters; ++i) {
-#ifdef ACCESS_0
-        uint32_t idx = random_uint32_t(0, N);
-        uint64_t element = arr[0];
-#else
-        uint32_t idx = random_uint32_t(0, N);
+    for (; i < iters; ++i) {
+        uint32_t idx = rand() % N;
         uint64_t element = arr[idx];
-#endif
     }
     uint64_t end = current_time_ns();
-    uint64_t actual_time = end - start - time_to_get_current_time_ns - (iters * time_to_gen_random_element);
+    uint64_t elapsed_time = end - start;
+    elapsed_time -= (iters * time_read_random_element(iters, N));
 
-    printf("%lu, %lu, %lf\n", N, iters, (double) actual_time / (double) iters);
+    printf("%" PRIu64 ", %" PRIu64 ", %lf\n",
+            N, iters, (double) elapsed_time / (double) iters);
+
     free(arr);
-}
-
-void time_current_time_ns() 
-{
-    uint64_t len = 1000000;
-    uint64_t start = current_time_ns();
-    for (uint32_t i = 0; i < len; i++) {
-        uint64_t _start = current_time_ns();
-        uint64_t _end = current_time_ns();
-    }
-    uint64_t end = current_time_ns();
-    printf("%lu\n", (end - start) / len);
-}
-
-void time_read_random_element()
-{
-    uint64_t len = 1000000;
-    uint64_t start = current_time_ns();
-    for (uint32_t i = 0; i < len; i++) {
-        uint32_t idx = random_uint32_t(0, len);
-        assert(idx + 1); // so that element is "used"
-    }
-    uint64_t end = current_time_ns();
-    printf("%lu\n", (end - start) / len);
-
 }
 
 int main(int argc, char *argv[]) 
 {
-    assert(argc && argv);
-    assert(argc == 3);
-    uint64_t arr_size = strtol(argv[1], NULL, 0);
-    uint64_t iters = strtol(argv[2], NULL, 0);
+    assert(argc == 2);
+    uint64_t arr_size_lg2 = strtol(argv[1], NULL, 0);
+    uint64_t arr_size = pow(2, arr_size_lg2);
+    uint64_t iters = 10000000;
 
+    srand(0);
     go(iters, arr_size);
+
     //time_current_time_ns();
-    //time_read_random_element();
+    //time_read_random_element(iters, pow(2,22));
+    //go_cpuid();
 
     return 0;
 }

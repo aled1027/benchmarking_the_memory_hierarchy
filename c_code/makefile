@@ -7,7 +7,7 @@ default:
 	gcc $(CFLAGS) utils.c main.c  $(LIBS)
 
 run:
-	./a.out 2048 1000000
+	./a.out 22
 
 gdb:
 	gdb --args ./a.out

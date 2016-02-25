@@ -1,0 +1,257 @@
+./a.out 2048 1000000
+Cache ID: 0
+Level: 1
+Sets: 64
+System Coherency Line Size: 64 bytes
+Physical Line partitions: 1
+Ways of associativity: 8
+Total Size: 32768 bytes (32 kb)
+
+Cache ID: 1
+Level: 1
+Sets: 64
+System Coherency Line Size: 64 bytes
+Physical Line partitions: 1
+Ways of associativity: 8
+Total Size: 32768 bytes (32 kb)
+
+Cache ID: 2
+Level: 2
+Sets: 512
+System Coherency Line Size: 64 bytes
+Physical Line partitions: 1
+Ways of associativity: 8
+Total Size: 262144 bytes (256 kb)
+
+Cache ID: 3
+Level: 3
+Sets: 4096
+System Coherency Line Size: 64 bytes
+Physical Line partitions: 1
+Ways of associativity: 12
+Total Size: 3145728 bytes (3072 kb)
+
+Cache ID: 4
+Level: 0
+Sets: 1
+System Coherency Line Size: 1 bytes
+Physical Line partitions: 1
+Ways of associativity: 1
+Total Size: 1 bytes (0 kb)
+
+Cache ID: 5
+Level: 0
+Sets: 1
+System Coherency Line Size: 1 bytes
+Physical Line partitions: 1
+Ways of associativity: 1
+Total Size: 1 bytes (0 kb)
+
+Cache ID: 6
+Level: 0
+Sets: 1
+System Coherency Line Size: 1 bytes
+Physical Line partitions: 1
+Ways of associativity: 1
+Total Size: 1 bytes (0 kb)
+
+Cache ID: 7
+Level: 0
+Sets: 1
+System Coherency Line Size: 1 bytes
+Physical Line partitions: 1
+Ways of associativity: 1
+Total Size: 1 bytes (0 kb)
+
+Cache ID: 8
+Level: 0
+Sets: 1
+System Coherency Line Size: 1 bytes
+Physical Line partitions: 1
+Ways of associativity: 1
+Total Size: 1 bytes (0 kb)
+
+Cache ID: 9
+Level: 0
+Sets: 1
+System Coherency Line Size: 1 bytes
+Physical Line partitions: 1
+Ways of associativity: 1
+Total Size: 1 bytes (0 kb)
+
+Cache ID: 10
+Level: 0
+Sets: 1
+System Coherency Line Size: 1 bytes
+Physical Line partitions: 1
+Ways of associativity: 1
+Total Size: 1 bytes (0 kb)
+
+Cache ID: 11
+Level: 0
+Sets: 1
+System Coherency Line Size: 1 bytes
+Physical Line partitions: 1
+Ways of associativity: 1
+Total Size: 1 bytes (0 kb)
+
+Cache ID: 12
+Level: 0
+Sets: 1
+System Coherency Line Size: 1 bytes
+Physical Line partitions: 1
+Ways of associativity: 1
+Total Size: 1 bytes (0 kb)
+
+Cache ID: 13
+Level: 0
+Sets: 1
+System Coherency Line Size: 1 bytes
+Physical Line partitions: 1
+Ways of associativity: 1
+Total Size: 1 bytes (0 kb)
+
+Cache ID: 14
+Level: 0
+Sets: 1
+System Coherency Line Size: 1 bytes
+Physical Line partitions: 1
+Ways of associativity: 1
+Total Size: 1 bytes (0 kb)
+
+Cache ID: 15
+Level: 0
+Sets: 1
+System Coherency Line Size: 1 bytes
+Physical Line partitions: 1
+Ways of associativity: 1
+Total Size: 1 bytes (0 kb)
+
+Cache ID: 16
+Level: 0
+Sets: 1
+System Coherency Line Size: 1 bytes
+Physical Line partitions: 1
+Ways of associativity: 1
+Total Size: 1 bytes (0 kb)
+
+Cache ID: 17
+Level: 0
+Sets: 1
+System Coherency Line Size: 1 bytes
+Physical Line partitions: 1
+Ways of associativity: 1
+Total Size: 1 bytes (0 kb)
+
+Cache ID: 18
+Level: 0
+Sets: 1
+System Coherency Line Size: 1 bytes
+Physical Line partitions: 1
+Ways of associativity: 1
+Total Size: 1 bytes (0 kb)
+
+Cache ID: 19
+Level: 0
+Sets: 1
+System Coherency Line Size: 1 bytes
+Physical Line partitions: 1
+Ways of associativity: 1
+Total Size: 1 bytes (0 kb)
+
+Cache ID: 20
+Level: 0
+Sets: 1
+System Coherency Line Size: 1 bytes
+Physical Line partitions: 1
+Ways of associativity: 1
+Total Size: 1 bytes (0 kb)
+
+Cache ID: 21
+Level: 0
+Sets: 1
+System Coherency Line Size: 1 bytes
+Physical Line partitions: 1
+Ways of associativity: 1
+Total Size: 1 bytes (0 kb)
+
+Cache ID: 22
+Level: 0
+Sets: 1
+System Coherency Line Size: 1 bytes
+Physical Line partitions: 1
+Ways of associativity: 1
+Total Size: 1 bytes (0 kb)
+
+Cache ID: 23
+Level: 0
+Sets: 1
+System Coherency Line Size: 1 bytes
+Physical Line partitions: 1
+Ways of associativity: 1
+Total Size: 1 bytes (0 kb)
+
+Cache ID: 24
+Level: 0
+Sets: 1
+System Coherency Line Size: 1 bytes
+Physical Line partitions: 1
+Ways of associativity: 1
+Total Size: 1 bytes (0 kb)
+
+Cache ID: 25
+Level: 0
+Sets: 1
+System Coherency Line Size: 1 bytes
+Physical Line partitions: 1
+Ways of associativity: 1
+Total Size: 1 bytes (0 kb)
+
+Cache ID: 26
+Level: 0
+Sets: 1
+System Coherency Line Size: 1 bytes
+Physical Line partitions: 1
+Ways of associativity: 1
+Total Size: 1 bytes (0 kb)
+
+Cache ID: 27
+Level: 0
+Sets: 1
+System Coherency Line Size: 1 bytes
+Physical Line partitions: 1
+Ways of associativity: 1
+Total Size: 1 bytes (0 kb)
+
+Cache ID: 28
+Level: 0
+Sets: 1
+System Coherency Line Size: 1 bytes
+Physical Line partitions: 1
+Ways of associativity: 1
+Total Size: 1 bytes (0 kb)
+
+Cache ID: 29
+Level: 0
+Sets: 1
+System Coherency Line Size: 1 bytes
+Physical Line partitions: 1
+Ways of associativity: 1
+Total Size: 1 bytes (0 kb)
+
+Cache ID: 30
+Level: 0
+Sets: 1
+System Coherency Line Size: 1 bytes
+Physical Line partitions: 1
+Ways of associativity: 1
+Total Size: 1 bytes (0 kb)
+
+Cache ID: 31
+Level: 0
+Sets: 1
+System Coherency Line Size: 1 bytes
+Physical Line partitions: 1
+Ways of associativity: 1
+Total Size: 1 bytes (0 kb)
+

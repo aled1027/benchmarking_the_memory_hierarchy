@@ -6,34 +6,24 @@ image_prefix <- "../images/"
 
 # load data, make individual graphs
 df <- data.frame()
-for (j in seq(3,22,1)) {
-  #print(i)
-  arr_size <- 2 ** j
-  fn <- paste(arr_size, "-10000", ".csv", sep="")
+for (i in seq(3,24,1)) {
+  fn <- paste(i, ".csv", sep="")
   dat.0 <- read.csv(fn)
   dat.0 <- mutate(dat.0, i = 1:nrow(dat.0))
-  dat.0$arr_size_lg2 <- rep(j, nrow(dat.0))
+  dat.0$arr_size_lg2 <- rep(i, nrow(dat.0))
   df <- rbind(df, dat.0)
-  title <- paste("Average latency for retrieving a random element; array size = 2**", j, sep='')
-  
-  ggplot(data=dat.0, aes(x = i, y= time)) +
-    geom_point() + 
-    coord_cartesian(ylim=c(0,200)) +
-    ylab("time (nanoseconds)") + 
-    xlab("trial") +
-    ggtitle(title)
-  fn = paste(image_prefix, j, ".png", sep="")
-  ggsave(filename=fn)
 }
 
 ggplot(data=df, aes(x = arr_size_lg2, y= time, col = as.factor(arr_size_lg2))) +
   geom_boxplot() + 
-  coord_cartesian(ylim=c(0,50)) + 
+  coord_cartesian(ylim=c(0,2.5)) + 
   ylab("time (nanoseconds") +
   xlab("array size") +
   ggtitle("Time to retrieve random element")
 ggsave(filename="../images/boxplot.png")
 
+#### NOT RELEVANT ANYMORE ####
+# 
 # # Aggregate scatter plot
 # ggplot(data=df, aes(x = i, y= time, col = as.factor(arr_size_lg2))) +
 #   geom_point() + 
