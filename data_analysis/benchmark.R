@@ -6,7 +6,7 @@ image_prefix <- "../images/"
 
 # load data, make individual graphs
 df <- data.frame()
-for (j in seq(10,24,1)) {
+for (j in seq(3,24,1)) {
   #print(i)
   arr_size <- 2 ** j
   iters <- 1000000
