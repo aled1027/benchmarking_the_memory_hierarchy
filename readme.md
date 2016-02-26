@@ -9,7 +9,7 @@ My experiment had the following steps:
     - `for i = 0 to iters:`
        - `r = rand(0, num_objects - 1)`
        - `fetch arr[r]`
-4. Normalize `t, where `time_gen_random_element` computes how long it takes the generate a random element via `rand() % num_objects`.. (See below for discussions of the constants) 
+4. Normalize `t`, where `time_gen_random_element` computes how the average time required to generate a random element via `rand() % num_objects`.
     - `t = t - (iters * time_gen_random_element(iters, num_objects))`
 5. Report `t`
 6. Repeat steps 1 through 5 10 times. 
