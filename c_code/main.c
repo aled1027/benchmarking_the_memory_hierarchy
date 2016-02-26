@@ -68,10 +68,11 @@ void go(uint64_t iters, uint64_t N)
     }
     uint64_t end = current_time_ns();
     uint64_t elapsed_time = end - start;
-    elapsed_time -= (iters * time_gen_random_element(iters, N));
+    //elapsed_time -= (iters * time_gen_random_element(iters, N));
 
-    printf("%" PRIu64 ", %" PRIu64 ", %lf\n",
-            N, iters, (double) elapsed_time / (double) iters);
+    printf("%" PRIu64 ", %" PRIu64 ", %" PRIu64 "\n",
+            N, iters, elapsed_time);
+            //N, iters, (double) elapsed_time / (double) iters);
 
     free(arr);
 }
@@ -84,11 +85,11 @@ int main(int argc, char *argv[])
     uint64_t iters = 10000000;
 
     srand(0);
-    //go(iters, arr_size);
+    go(iters, arr_size);
 
     //time_current_time_ns();
     //time_read_random_element(iters, pow(2,22));
-    measure_cache();
+    //measure_cache();
 
     return 0;
 }

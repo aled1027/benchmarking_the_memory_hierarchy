@@ -13,9 +13,9 @@
 for ((ARR_SIZE=24; ARR_SIZE>=3; ARR_SIZE--));
 do
     echo $ARR_SIZE
-    echo "arr_size, iters, time" > ../data/$ARR_SIZE.csv
+    echo "arr_size, iters, time" > ../tot_data/$ARR_SIZE.csv
     for ((k=0; k<10; k++));
     do
-        ./a.out $ARR_SIZE >> ../data/$ARR_SIZE.csv
+        ./a.out $ARR_SIZE >> ../tot_data/$ARR_SIZE.csv
     done
 done
