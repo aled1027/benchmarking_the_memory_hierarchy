@@ -57,7 +57,8 @@ If I had to guess the size of my cache based on my data, I would have to guess t
 I estimate that size for the cache size because of the speed of accessing a random element in the a 2^24 array as fast as accessing a random element in any other sized array, suggesting that random elements being accessed are in the same cache: the L1 cache. 
 
 ### CPUID
-I used inline assembly and CPUID to find infomration abouy my machine's cache system, giving the following information:
+I used inline assembly and CPUID to find infomration about my machine's cache system.
+I received the following information:
 ```
 Cache ID: 0
 Level: 1
