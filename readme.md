@@ -6,16 +6,15 @@ My experiment had the following steps:
 1. Take as input `num_objects`. `iters` is fixed in the .c file to 10,000,000.
 2. Initialize a `uint64_t` array with `num_objects` elements.
 3. Time how long the following loop takes. Call the time `t`.
- ``` 
-for i = 0 to iters:
-   r = rand(0, num_objects - 1)
-   fetch arr[r]
-```
-4. Normalize `t`. (See below for discussions of the constants)
-```
-    t = t - (iters * time_gen_random_element(iters, num_objects))`
-```
-where `time_genrandom_element` computes how long it takes the generate a random element via `rand() % num_objects`.
+    ``` 
+    for i = 0 to iters:
+       r = rand(0, num_objects - 1)
+       fetch arr[r]
+    ```
+4. Normalize `t, where `time_gen_random_element` computes how long it takes the generate a random element via `rand() % num_objects`.. (See below for discussions of the constants) 
+    ```
+        t = t - (iters * time_gen_random_element(iters, num_objects))`
+    ```
 5. Report `t`
 6. Repeat steps 1 through 5 10 times. 
 
