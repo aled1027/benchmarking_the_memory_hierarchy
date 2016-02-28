@@ -49,6 +49,7 @@ int32_t cache_type = eax & 0x1F;
 uint64_t time_gen_random_element(uint64_t iters, uint32_t mod)
 {
     uint64_t start = current_time_ns();
+
     for (uint32_t i = 0; i < iters; i++) {
         uint32_t a = rand() % mod;
     }
@@ -58,24 +59,33 @@ uint64_t time_gen_random_element(uint64_t iters, uint32_t mod)
 
 void go(uint64_t iters, uint64_t N) 
 {
+    /* get random numbers */
     uint64_t *arr = generate_random_array(N);
+    uint32_t *rands = calloc(iters, sizeof(uint32_t));
+    assert(rands && "was memory allocated?");
 
-    uint32_t i = 0;
+    for (uint32_t i = 0; i < iters; ++i) {
+        rands[i] = rand() % N;
+    }
+
+    /* start timing */
     uint64_t start = current_time_ns();
-    for (; i < iters; ++i) {
-        uint32_t idx = rand() % N;
-        uint64_t element = arr[idx];
+    for (uint32_t i = 0; i < iters; ++i) {
+        uint64_t element = arr[rands[i]];
     }
     uint64_t end = current_time_ns();
-    uint64_t elapsed_time = end - start;
-    elapsed_time -= (iters * time_gen_random_element(iters, N));
+    /* end timing */
 
-    printf("%" PRIu64 ", %" PRIu64 ", %lf\n",
-            N, iters, (double) elapsed_time / (double) iters);
-    //printf("%" PRIu64 ", %" PRIu64 ", %" PRIu64 "\n",
-            //N, iters, elapsed_time);
+    uint64_t elapsed_time = end - start;
+
+    printf("%" PRIu64 ", %" PRIu64 ", %lu\n",
+            N, iters,  elapsed_time);
+
+    //printf("%" PRIu64 ", %" PRIu64 ", %lf\n",
+    //        N, iters, (double) elapsed_time / (double) iters);
 
     free(arr);
+    free(rands);
 }
 
 int main(int argc, char *argv[]) 
@@ -83,7 +93,7 @@ int main(int argc, char *argv[])
     assert(argc == 2);
     uint64_t arr_size_lg2 = strtol(argv[1], NULL, 0);
     uint64_t arr_size = pow(2, arr_size_lg2);
-    uint64_t iters = 10000000;
+    uint64_t iters = 100000;
 
     srand(0);
     go(iters, arr_size);

@@ -10,12 +10,20 @@
 
 # 8388608 16777216
 
-for ((ARR_SIZE=24; ARR_SIZE>=3; ARR_SIZE--));
+for ((ARR_SIZE=10; ARR_SIZE<=24; ARR_SIZE++));
 do
-    echo $ARR_SIZE
-    echo "arr_size, iters, time" > ../tot_data/$ARR_SIZE.csv
-    for ((k=0; k<10; k++));
+    echo "arr_size, iters, time" > ../new_data/$ARR_SIZE.csv
+done
+
+for ((i=0; i<10; i++));
+do
+    for ((ARR_SIZE=10; ARR_SIZE<=24; ARR_SIZE++));
     do
-        ./a.out $ARR_SIZE >> ../tot_data/$ARR_SIZE.csv
+        echo $ARR_SIZE
+        for ((k=0; k<5; k++));
+        do
+            ./a.out $ARR_SIZE >> ../new_data/$ARR_SIZE.csv
+        done
     done
 done
+

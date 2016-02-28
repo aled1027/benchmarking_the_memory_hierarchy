@@ -1,6 +1,6 @@
 
 #CFLAGS = -O3 -Wall -Wextra -pedantic -Werror -std=gnu11
-CFLAGS = -g -O3 -std=gnu11
+CFLAGS = -O3 -std=gnu11
 LIBS = -lm -lrt
 
 default:
@@ -8,6 +8,9 @@ default:
 
 run:
 	./a.out 22
+
+r10:
+	./a.out 10
 
 gdb:
 	gdb --args ./a.out

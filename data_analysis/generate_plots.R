@@ -1,12 +1,13 @@
 library(ggplot2)
 library(dplyr)
 
-setwd("../tot_data/.")
+setwd("../new_data/.")
+# setwd("../tot_data/.")
 image_prefix <- "../images/"
 
 # load data, make individual graphs
 df <- data.frame()
-for (i in seq(3,24,1)) {
+for (i in seq(10,24,1)) {
   fn <- paste(i, ".csv", sep="")
   dat.0 <- read.csv(fn)
   dat.0 <- mutate(dat.0, i = 1:nrow(dat.0))
@@ -16,11 +17,11 @@ for (i in seq(3,24,1)) {
 
 ggplot(data=df, aes(x = arr_size_lg2, y= time, col = as.factor(arr_size_lg2))) +
   geom_boxplot() + 
-  coord_cartesian(ylim=c(85000000,100000000)) + 
+  # coord_cartesian(ylim=c(85000000,100000000)) + 
   ylab("time (nanoseconds") +
   xlab("array size") +
   ggtitle("Time to retrieve random element")
-fn <- paste(image_prefix, "tot_boxplot.png", sep="")
+fn <- paste(image_prefix, "new_tot_boxplot.png", sep="")
 ggsave(filename=fn)
 
 #### NOT RELEVANT ANYMORE ####
