@@ -59,19 +59,18 @@ uint64_t time_gen_random_element(uint64_t iters, uint32_t mod)
 
 void go(uint64_t iters, uint64_t N) 
 {
+    /* prime numbers for pseudorandom value */
+    uint32_t p = 9973;
+    uint32_t q = 9967;
+
     /* get random numbers */
     uint64_t *arr = generate_random_array(N);
-    uint32_t *rands = calloc(iters, sizeof(uint32_t));
-    assert(rands && "was memory allocated?");
-
-    for (uint32_t i = 0; i < iters; ++i) {
-        rands[i] = rand() % N;
-    }
 
     /* start timing */
     uint64_t start = current_time_ns();
     for (uint32_t i = 0; i < iters; ++i) {
-        uint64_t element = arr[rands[i]];
+        uint32_t rand = (i * p * q) % N;
+        uint64_t element = arr[rand];
     }
     uint64_t end = current_time_ns();
     /* end timing */
